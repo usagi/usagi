@@ -28,7 +28,7 @@ namespace usagi
       using apply_functor_signature = auto ( T& ) -> void;
       using apply_functor_type = std::function< apply_functor_signature >;
       
-      using on_arris_resize_functor_signature = auto ( const type& ref, std::size_t& new_size ) -> void;
+      using on_arris_resize_functor_signature = auto ( const type& ref, std::size_t new_size ) -> void;
       using on_arris_resize_functor_type = std::function< on_arris_resize_functor_signature >;
 
     protected:
@@ -112,6 +112,9 @@ namespace usagi
         resize_rows( rows_size, default_value );
         resize_cols( cols_size, default_value );
       }
+
+      auto resize ( const std::size_t size, const T& default_value = T() )
+      { resize( size, size, default_value ); }
 
       auto begin() const -> decltype( rows_type::begin() ) { return rows_type::begin(); }
       auto end()   const -> decltype( rows_type::end() ){ return rows_type::end();   }
