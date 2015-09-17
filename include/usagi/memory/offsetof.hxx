@@ -11,5 +11,5 @@
   /// @param TYPE 要素のアドレスオフセットを得るPOD型
   /// @param ELEMENT アドレスオフセットを得るTYPE型の要素
   /// @return アドレスオフセット
-  #define OFFSETOF( TYPE, ELEMENT ) ( reinterpret_cast< std::size_t >( &reinterpret_cast< TYPE * >( 0 ) -> ELEMENT ) )
+  #define OFFSETOF( TYPE, ELEMENT ) reinterpret_cast< std::size_t >( &reinterpret_cast< TYPE * >( 0 ) -> ELEMENT )
 #endif
