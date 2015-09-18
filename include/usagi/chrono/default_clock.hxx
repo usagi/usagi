@@ -4,6 +4,7 @@
 #pragma once
 
 #include "windows_query_performance_counter_clock.hxx"
+#include <chrono>
 
 namespace usagi
 {
@@ -13,7 +14,7 @@ namespace usagi
 #ifdef _WIN32
       windows_query_performance_counter_clock
 #else
-      std::steady_clock
+      std::chrono::steady_clock
 #endif
       ;
   }
