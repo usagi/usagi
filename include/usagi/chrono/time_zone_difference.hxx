@@ -13,10 +13,12 @@ namespace usagi
     template < typename T = std::chrono::minutes >
     static auto time_zone_difference()
     {
-      std::time_t current_time = time(0);
-      std::tm     local_tm     = *gmtime( &current_time );
-      std::time_t utc_time     = mktime( &local_tm );
-      return std::chrono::duration_cast< T >( std::chrono::duration< double >( difftime( current_time, utc_time ) ) );
+      const auto current_time = time ( 0 );
+      const auto local_tm     = gmtime ( &current_time );
+      const auto utc_time     = mktime ( local_tm );
+      return std::chrono::duration_cast< T >
+        ( std::chrono::duration< double > ( difftime ( current_time, utc_time ) )
+        );
     }
   }
 }

@@ -11,12 +11,13 @@ namespace usagi
 {
   namespace chrono
   {
+    template < typename REP = long double >
     struct windows_query_performance_counter_clock
     {
-      using rep = long long;
+      using rep = REP;
       using period = std::pico;
       using duration = std::chrono::duration< rep, period >;
-      using time_point = std::chrono::time_point< windows_query_performance_counter_clock >;
+      using time_point = std::chrono::time_point< windows_query_performance_counter_clock< REP > >;
       static const bool is_steady = true;
       static time_point now()
       {
@@ -26,6 +27,10 @@ namespace usagi
         QueryPerformanceCounter ( &count );
         return time_point ( duration ( count.QuadPart * static_cast< rep > ( period::den ) /
                                        frequency.QuadPart ) );
+      }
+      static auto to_time_t( const time_point& tp ) noexcept -> std::time_t
+      {
+        return godai::chrono::to_time_t( tp );
       }
     };
   }
