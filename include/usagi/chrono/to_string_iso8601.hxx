@@ -88,24 +88,24 @@ namespace usagi
     {
       using namespace std::chrono;
       const auto& ct = TIME_POINT::clock::to_time_t ( t );
-      const auto lt = std::localtime( &ct );
+      auto lt = *std::localtime( &ct );
 #ifdef _WIN32
       // MSVC++ ( and mingw ) put an invalid `%z` time zone string, then
       // write convertible code and it requred a time zone difference.
       const auto z = time_zone_difference();
 #endif
       std::stringstream r;
-      r << std::put_time( lt, format_date_time )
+      r << std::put_time( &lt, format_date_time )
         << detail::get_sub_seccond_string< TIME_POINT, SECOND_UNIT >( t )
 #ifdef _WIN32
         << ( std::signbit( z.count() ) ? "-" : "+" )
         << std::setw( 2 ) << std::setfill( '0' )
-        << std::to_string( std::abs( duration_cast< hours >( z ).count() ) % hours::period::den )
+        << std::to_string( std::abs( duration_cast< hours >( z ).count() ) )
         << ":"
         << std::setw( 2 ) << std::setfill( '0' )
         << std::to_string( std::abs( duration_cast< minutes >( z ).count() ) % minutes::period::den )
 #else
-        << std::put_time( lt, format_time_zone )
+        << std::put_time( &lt, format_time_zone )
 #endif
         ;
       
