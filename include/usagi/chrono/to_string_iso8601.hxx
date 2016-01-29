@@ -6,6 +6,7 @@
 #include "default_clock.hxx"
 #ifdef _WIN32
 #include "time_zone_difference.hxx"
+#include "to_time_t.hxx"
 #endif
 #include <chrono>
 #include <string>
@@ -68,7 +69,7 @@ namespace usagi
     -> std::string
     {
       using namespace std::chrono;
-      const auto& ct = TIME_POINT::clock::to_time_t ( t );
+      const auto& ct = to_time_t ( t );
       const auto gt = std::gmtime( &ct );
       std::stringstream r;
       r << std::put_time( gt, format_date_time )
@@ -87,7 +88,7 @@ namespace usagi
     )
     {
       using namespace std::chrono;
-      const auto& ct = TIME_POINT::clock::to_time_t ( t );
+      const auto& ct = to_time_t ( t );
       auto lt = *std::localtime( &ct );
 #ifdef _WIN32
       // MSVC++ ( and mingw ) put an invalid `%z` time zone string, then
