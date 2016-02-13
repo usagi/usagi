@@ -30,7 +30,7 @@ namespace usagi
       }
       static auto to_time_t( const time_point& tp ) noexcept -> std::time_t
       {
-        return godai::chrono::to_time_t( tp );
+        return usagi::chrono::to_time_t( tp );
       }
     };
   }
