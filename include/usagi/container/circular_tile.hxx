@@ -79,7 +79,7 @@ namespace usagi
       { }
 
       static inline auto get_nothing_functor_on_arris_resize()
-      { return []( const auto&, auto& ){ }; }
+      { return []( const type&, std::size_t ){ }; }
       
       auto cols_size() const { return this->front().size(); }
       auto rows_size() const { return rows_type::size(); }
