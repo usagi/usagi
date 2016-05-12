@@ -132,7 +132,7 @@ namespace usagi
             else
               bone_index = _shared_bone_map->at( bone_name );
             
-            _shared_bone_map->at( bone_name ) = bone_index;
+            (*_shared_bone_map)[ bone_name ] = bone_index;
             
             // TODO: もしかしたら .x 形式以外では bone_offset に transpose していると怪奇現象化するかも。要確認
             // pattern: .x is ok

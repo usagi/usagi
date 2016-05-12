@@ -149,7 +149,8 @@ namespace usagi
         , const std::string& path_prefix    = ""
         , const bool         transpose_node = false
         )
-          : _shared_bone_map        ( std::make_shared< bone_map_type >()         )
+          : _shared_animation_map   ( std::make_shared< animation_map_type >()    )
+          , _shared_bone_map        ( std::make_shared< bone_map_type >()         )
           , _shared_bone_offsets    ( std::make_shared< bone_offsets_type >()     )
           , _shared_shared_materials( std::make_shared< shared_materials_type >() )
           , _shared_meshes          ( std::make_shared< meshes_type >()           )
