@@ -43,14 +43,14 @@ namespace usagi
           , weight( w )
         { }
         
-        inline auto operator+=( const float delta_typeime_in_seconds )
+        inline auto operator+=( const float delta_time_in_seconds )
           -> void
-        { time += duration_type( delta_typeime_in_seconds ); }
+        { time += duration_type( delta_time_in_seconds ); }
         
         template < class T_duration = duration_type >
-        inline auto operator+=( const T_duration& delta_typeime )
+        inline auto operator+=( const T_duration& delta_time )
           -> void
-        { time += delta_typeime; }
+        { time += delta_time; }
         
         template < class T_duration = duration_type >
         inline auto operator=( const T_duration& t )

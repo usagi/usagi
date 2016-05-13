@@ -15,6 +15,8 @@ namespace usagi
     namespace model
     {
       
+      constexpr auto max_bones = 48u;
+              
       struct vertex_bone_type
       {
         glm::vec4 bone_ids;

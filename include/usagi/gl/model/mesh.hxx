@@ -120,8 +120,6 @@ namespace usagi
               bone_index = _shared_bone_map->size();
               _shared_bone_offsets->push_back( glm::mat4( 1.0f ) );
               
-              constexpr auto max_bones = 48u;
-              
               if ( _shared_bone_offsets->size() > max_bones )
                 throw std::runtime_error
                 ( "bone offset size " + std::to_string( _shared_bone_offsets->size() )

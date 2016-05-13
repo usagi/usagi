@@ -249,8 +249,22 @@ namespace usagi
         }
         
         /// @brief 描画
+        auto draw()
+         -> void
+        {
+          draw( animation_states_type() );
+        }
+        
         auto draw
-        ( const animation_states_type& animation_states = animation_states_type()
+        ( const animation_state_type& animation_state 
+        )
+         ->void
+        {
+          draw( animation_states_type{ animation_state } );
+        }
+        
+        auto draw
+        ( const animation_states_type& animation_states
         )
          ->void
         {
