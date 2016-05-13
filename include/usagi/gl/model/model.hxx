@@ -236,13 +236,13 @@ namespace usagi
           }
         }
         
-        auto shadow( const bool shadow_ )
+        auto set_shadow( const bool shadow_ )
           -> void
         {
            _shadow = shadow_;
         }
         
-        auto shadow() const
+        auto get_shadow() const
           -> bool
         {
           return _shadow;
@@ -259,7 +259,7 @@ namespace usagi
         }
         
         /// @brief ボーンの名前のリストを提供
-        auto bone_names()
+        auto get_bone_names() const
           -> std::vector< std::string >
         {
           std::vector< std::string > r;
@@ -270,7 +270,7 @@ namespace usagi
         }
         
         /// @brief アニメーションの名前のリストを提供
-        auto animation_names()
+        auto get_animation_names() const
           -> std::vector< std::string >
         {
           return _animation_names;
@@ -296,11 +296,11 @@ namespace usagi
           ;
         
         /// @brief ファイルからモデルデータを生成
-        static auto create
+        static auto make_shared
         ( const std::string& file_path
         , unsigned int importer_readfile_flags = default_importer_readfile_flags
         )
-         ->shared_type
+          -> shared_type
         {
           // Assimp::Importer ctor
           //  http://assimp.sourceforge.net/lib_html/class_assimp_1_1_importer.html#a2c207299ed05f1db1ad1e6dab005f719
