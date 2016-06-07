@@ -18,7 +18,7 @@ namespace usagi
     
     template< typename ITERATABLE >
     static auto make_range_object( const ITERATABLE& in )
-    { return make_range_object_type( in.cbegin(), in.cend() ); }
+    { return make_range_object( in.cbegin(), in.cend() ); }
     
   } 
 }
