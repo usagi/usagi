@@ -13,11 +13,11 @@ namespace usagi
     };
     
     template< typename ITERATOR >
-    static auto make_range_object_type( const ITERATOR& a, const ITERATOR& b )
+    static auto make_range_object( const ITERATOR& a, const ITERATOR& b )
     { return range_object_type< ITERATOR >{ a, b }; }
     
     template< typename ITERATABLE >
-    static auto make_range_object_type( const ITERATABLE& in )
+    static auto make_range_object( const ITERATABLE& in )
     { return make_range_object_type( in.cbegin(), in.cend() ); }
     
   } 
