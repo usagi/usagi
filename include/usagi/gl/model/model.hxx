@@ -359,9 +359,9 @@ namespace usagi
           
           {
             auto ext = file_path.substr( file_path.rfind('.') + 1 );
-            if ( ext == "x" )
+            if ( ext == "x" or ext == "obj" )
               flags |= aiProcess_FlipUVs;
-            else if ( ext == "cob" || ext == "fbx")
+            else if ( ext == "cob" or ext == "fbx")
               transpose_node = true;
           }
           

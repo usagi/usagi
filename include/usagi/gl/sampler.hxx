@@ -15,9 +15,20 @@ namespace usagi
       GLuint id = 0;
     public:
       
+      decltype( auto ) parameter( const GLenum name, const GLfloat parameter ) { glSamplerParameterf( id, name, parameter ); return *this; }
+      decltype( auto ) parameter( const GLenum name, const GLint   parameter ) { glSamplerParameteri( id, name, parameter ); return *this; }
+      
+      decltype( auto ) parameter( const GLenum name, const GLfloat* parameters ) { glSamplerParameterfv( id, name, parameters ); return *this; }
+      decltype( auto ) parameter( const GLenum name, const GLint*   parameters ) { glSamplerParameteriv( id, name, parameters ); return *this; }
+      
       sampler_type()
       {
         glGenSamplers( 1, &id );
+        
+        parameter( GL_TEXTURE_WRAP_S, static_cast< GLint >( GL_REPEAT ) );
+        parameter( GL_TEXTURE_WRAP_T, static_cast< GLint >( GL_REPEAT ) );
+        parameter( GL_TEXTURE_MAG_FILTER, static_cast< GLint >( GL_NEAREST ) );
+        parameter( GL_TEXTURE_MIN_FILTER, static_cast< GLint >( GL_NEAREST ) );
       }
       
       ~sampler_type()
@@ -36,12 +47,6 @@ namespace usagi
       {
         glBindSampler( texture_unit, 0 );
       }
-      
-      auto parameter( const GLenum name, const GLfloat parameter ) { glSamplerParameterf( id, name, parameter ); }
-      auto parameter( const GLenum name, const GLint   parameter ) { glSamplerParameteri( id, name, parameter ); }
-      
-      auto parameter( const GLenum name, const GLfloat* parameters ) { glSamplerParameterfv( id, name, parameters ); }
-      auto parameter( const GLenum name, const GLint*   parameters ) { glSamplerParameteriv( id, name, parameters ); }
     };
     
     using shared_sampler_type = std::shared_ptr< sampler_type >;

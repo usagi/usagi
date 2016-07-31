@@ -85,8 +85,26 @@ namespace usagi
                 aiString path;
                 material->GetTexture( type, number_of_texture, &path, nullptr, nullptr, nullptr, nullptr, nullptr );
                 
+                using namespace std::literals::string_literals;
+                
                 int width = 0, height = 0, elements = 0;
-                auto data = stbi_load( ( path_prefix + path.C_Str() ).c_str(), &width, &height, &elements, 0 );
+                std::uint8_t* data = nullptr;
+                
+                for ( const auto& sub_path : { ""s, "Textures"s, "textures"s, "TEXTURES"s } )
+                {
+                  std::string fixed_path;
+                  
+                  if ( not path_prefix.empty() )
+                    fixed_path += path_prefix + "/"s;
+                  
+                  if ( not sub_path.empty() )
+                    fixed_path += sub_path + "/"s;
+                  
+                  fixed_path += path.C_Str();
+                  
+                  if ( data = stbi_load( fixed_path.c_str(), &width, &height, &elements, 0 ) )
+                    break;
+                }
                 
                 if ( not data )
                   continue;
@@ -97,12 +115,16 @@ namespace usagi
                 {
                   case 4:
                     shared_texture->load_image( reinterpret_cast< glm::u8vec4* >( data ), width, height );
+                    break;
                   case 3:
                     shared_texture->load_image( reinterpret_cast< glm::u8vec3* >( data ), width, height );
+                    break;
                   case 2:
                     shared_texture->load_image( reinterpret_cast< glm::u8vec2* >( data ), width, height );
+                    break;
                   case 1:
                     shared_texture->load_image( reinterpret_cast< glm::u8vec1* >( data ), width, height );
+                    break;
                   default:
                     throw std::runtime_error( "unknown element size from stbi_load" );
                 }
@@ -126,6 +148,8 @@ namespace usagi
           process_texture( aiTextureType_REFLECTION  , "reflection"   );
         }
         
+        GLuint t = 0;
+        
         auto bind()
         {
           for ( const auto& parameter_pair : parameters )
@@ -138,7 +162,7 @@ namespace usagi
             glActiveTexture( static_cast< GLenum >( static_cast< std::underlying_type_t< GLenum > >( GL_TEXTURE0 ) + current_texture_unit_number ) );
             
             texture_pair.second->bind( current_texture_unit_number );
-            
+            const auto uniform_location = get_uniform_location( texture_pair.first );
             set_uniform( texture_pair.first, static_cast< GLint >( current_texture_unit_number ) );
             
             ++current_texture_unit_number;
