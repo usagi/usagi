@@ -19,7 +19,7 @@ namespace usagi
     static inline auto is_base64( unsigned char c ) -> bool
     { return ( std::isalnum( c ) || ( c == '+' ) || ( c == '/') ); }
     
-    auto encode( const std::string& in )
+    static inline auto encode( const std::string& in )
       -> std::string
     {
       auto bytes_to_encode = reinterpret_cast< const std::uint8_t* >( in.data() );
@@ -67,7 +67,7 @@ namespace usagi
       return ret;
     }
     
-    auto decode( const std::string& encoded_string )
+    static inline auto decode( const std::string& encoded_string )
       -> std::string
     {
       size_t in_len = encoded_string.size();

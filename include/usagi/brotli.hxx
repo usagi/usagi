@@ -31,7 +31,7 @@ namespace usagi
     < typename OUT_CONTAINER_TYPE = std::vector< std::uint8_t >
     , typename IN_CONTAINER_TYPE  = std::vector< std::uint8_t >
     >
-    auto compress
+    static inline auto compress
     ( const IN_CONTAINER_TYPE& in
     , const int quality     = 11
     , const int window_size = 22
@@ -74,7 +74,7 @@ namespace usagi
     , typename OUT_CONTAINER_TYPE = std::vector< std::uint8_t >
     , typename IN_CONTAINER_TYPE  = std::vector< std::uint8_t >
     >
-    auto decompress
+    static inline auto decompress
     ( const IN_CONTAINER_TYPE& in
     ) -> OUT_CONTAINER_TYPE
     {
