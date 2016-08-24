@@ -15,8 +15,8 @@ namespace usagi
   {
     namespace c
     {
-#include <brotli/public/decode.h>
-#include <brotli/public/encode.h>
+#include <brotli/decode.h>
+#include <brotli/encode.h>
     }
     
     enum class mode_type
