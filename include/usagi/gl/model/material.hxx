@@ -102,7 +102,9 @@ namespace usagi
                   
                   fixed_path += path.C_Str();
                   
-                  if ( data = stbi_load( fixed_path.c_str(), &width, &height, &elements, 0 ) )
+                  data = stbi_load( fixed_path.c_str(), &width, &height, &elements, 0 );
+                  
+                  if ( data )
                     break;
                 }
                 
@@ -162,7 +164,6 @@ namespace usagi
             glActiveTexture( static_cast< GLenum >( static_cast< std::underlying_type_t< GLenum > >( GL_TEXTURE0 ) + current_texture_unit_number ) );
             
             texture_pair.second->bind( current_texture_unit_number );
-            const auto uniform_location = get_uniform_location( texture_pair.first );
             set_uniform( texture_pair.first, static_cast< GLint >( current_texture_unit_number ) );
             
             ++current_texture_unit_number;
