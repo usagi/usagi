@@ -37,7 +37,6 @@ namespace usagi
           return false;
         
         auto p = ( boost::filesystem::path( in_path ).parent_path() += "/" ) / filename;
-        std::cerr << p << std::endl;
         
         if ( unzOpenCurrentFile( file ) != UNZ_OK )
           return false;
