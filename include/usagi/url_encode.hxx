@@ -16,7 +16,7 @@ namespace usagi
       using value_type = typename T::value_type;
       
       std::basic_ostringstream< value_type > escaped;
-      escaped.fill( T::value_type( '0' ) );
+      escaped.fill( value_type( '0' ) );
       escaped << std::hex;
       
       for ( const auto c : in )
