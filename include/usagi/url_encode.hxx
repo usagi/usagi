@@ -13,7 +13,7 @@ namespace usagi
     static inline auto encode( const T& in )
       -> T
     {
-      std::basic_ostringstream< T::value_type > escaped;
+      std::basic_ostringstream< typename T::value_type > escaped;
       escaped.fill( T::value_type( '0' ) );
       escaped << std::hex;
       
