@@ -13,7 +13,9 @@ namespace usagi
     static inline auto encode( const T& in )
       -> T
     {
-      std::basic_ostringstream< typename T::value_type > escaped;
+      using value_type = typename T::value_type;
+      
+      std::basic_ostringstream< value_type > escaped;
       escaped.fill( T::value_type( '0' ) );
       escaped << std::hex;
       
@@ -21,10 +23,10 @@ namespace usagi
       {
         if
         (    std::isalnum( c )
-          or c == T::value_type( '-' )
-          or c == T::value_type( '_' )
-          or c == T::value_type( '.' )
-          or c == T::value_type( '~' )
+          or c == value_type( '-' )
+          or c == value_type( '_' )
+          or c == value_type( '.' )
+          or c == value_type( '~' )
         )
         {
           escaped << c;
@@ -33,7 +35,7 @@ namespace usagi
         
         escaped
           << std::uppercase
-          << T::value_type( '%' )
+          << value_type( '%' )
           << std::setw( 2 )
           << static_cast< int >( *reinterpret_cast< const unsigned char* >( &c ) )
           << std::nouppercase
