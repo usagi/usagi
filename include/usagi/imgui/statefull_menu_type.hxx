@@ -51,9 +51,6 @@ namespace usagi
             _recursive_menu_render( _m );
             ImGui::EndPopup();
           }
-          
-          if ( _show )
-            ImGui::OpenPopup( _root_node_label.c_str() );
         }
         else
           _recursive_menu_render( _m );
@@ -132,7 +129,7 @@ namespace usagi
       auto ignore_exceptions() -> bool { return _ignore_exceptions; }
       auto ignore_exceptions( const bool in ) -> bool { return _ignore_exceptions = in; }
       
-      auto show() { _show = true; }
+      auto show() { ImGui::OpenPopup( _root_node_label.c_str() ); }
       
       auto empty() { return _m.empty(); }
       
@@ -275,7 +272,6 @@ namespace usagi
       std::string _root_node_label;
       std::string _path_separator = "/";
       std::atomic< bool > _is_popup;
-      std::atomic< bool > _show;
       std::atomic< bool > _ignore_exceptions;
       std::mutex _mutex;
       std::mutex _mutex_removes;
