@@ -30,7 +30,6 @@ namespace usagi
           ( "##" + std::to_string( _generate_random_number() )
           )
         , _is_popup( in_is_popup )
-        , _show( false )
         , _ignore_exceptions( in_ignore_exceptions )
       { }
       
@@ -250,10 +249,7 @@ namespace usagi
           if ( p.second.empty() )
           {
             if ( ImGui::MenuItem( p.first.c_str(), "", false ) )
-            {
               p.second();
-              _show = false;
-            }
           }
           else
           {
