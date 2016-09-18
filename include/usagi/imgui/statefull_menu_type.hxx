@@ -40,8 +40,16 @@ namespace usagi
         std::lock_guard< decltype( _mutex ) > lock_guard( _mutex );
         
         // このタイミングで削除処理を行わないと ImGui の描画タイミングの都合存在しないメモリー領域を参照する可能性がある
-        _remove();
-        _add();
+        if ( _clear )
+        {
+          _m.clear();
+          _clear = false;
+        }
+        else
+        {
+          _remove();
+          _add();
+        }
         
         if ( _is_popup )
         {
@@ -55,6 +63,19 @@ namespace usagi
           _recursive_menu_render( _m );
         
         return { };
+      }
+      
+      auto clear()
+      {
+        {
+          std::lock_guard< decltype( _mutex_removes ) > lock_guard( _mutex_removes );
+          _removes.clear();
+        }
+        {
+          std::lock_guard< decltype( _mutex_adds ) > lock_guard( _mutex_adds );
+          _adds.clear();
+        }
+        _clear = true;
       }
       
       auto remove( const std::string& concatenated_path )
@@ -269,6 +290,7 @@ namespace usagi
       std::string _path_separator = "/";
       std::atomic< bool > _is_popup;
       std::atomic< bool > _ignore_exceptions;
+      std::atomic< bool > _clear;
       std::mutex _mutex;
       std::mutex _mutex_removes;
       std::mutex _mutex_adds;
