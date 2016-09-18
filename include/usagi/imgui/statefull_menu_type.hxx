@@ -172,7 +172,6 @@ namespace usagi
         
         for ( const auto concatenated_path : _removes )
         {
-std::cerr << concatenated_path << "\n";
           const auto path_parts = _split( concatenated_path );
           
           auto m = &_m;
@@ -186,7 +185,6 @@ std::cerr << concatenated_path << "\n";
           
           for ( const auto p : path_parts )
           {
-std::cerr << "? " << p << "\n";
             const auto i = m->find( p );
             
             if ( i == cend( *m ) and not _ignore_exceptions )
@@ -201,7 +199,6 @@ std::cerr << "? " << p << "\n";
           {
             if ( not p->second->second.empty() )
               break;
-std::cerr << "* " << p->second->first << "\n";
             p->first->erase( p->second );
           }
         }
