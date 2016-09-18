@@ -1,6 +1,7 @@
 #include <imgui.h>
 
 #include <boost/algorithm/string/split.hpp>
+#include <boost/algorithm/string/classification.hpp>
 
 #include <map>
 #include <stack>
