@@ -370,7 +370,10 @@ namespace usagi
           if ( not scene )
             throw std::runtime_error( i.GetErrorString() );
           
-          const auto r = std::make_shared< model_type >( scene, file_path.substr( 0, file_path.find_last_of( '/' ) ), transpose_node );
+          
+          const auto last_slash = file_path.find_last_of( '/' );
+          const auto path_prefix = ( last_slash == file_path.npos ) ? "" : file_path.substr( 0, last_slash );
+          const auto r = std::make_shared< model_type >( scene, path_prefix, transpose_node );
           
           i.FreeScene();
           
