@@ -27,7 +27,7 @@ namespace usagi
       
       statefull_menu_type( const bool in_is_popup = true, const bool in_ignore_exceptions = false )
         : _root_node_label
-          ( "##" + std::to_string( _generate_random_number() )
+          ( "###" + std::to_string( _generate_random_number() )
           )
         , _is_popup( in_is_popup )
         , _ignore_exceptions( in_ignore_exceptions )
