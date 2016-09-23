@@ -34,7 +34,7 @@ namespace usagi
       { }
       
       /// @brief open the context menu
-      auto operator()() const
+      auto operator()()
       {
         std::lock_guard< decltype( _mutex ) > lock_guard( _mutex );
         
