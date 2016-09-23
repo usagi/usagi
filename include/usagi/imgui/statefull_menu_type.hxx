@@ -34,8 +34,7 @@ namespace usagi
       { }
       
       /// @brief open the context menu
-      auto operator()()
-        -> std::unique_ptr< std::string >
+      auto operator()() const
       {
         std::lock_guard< decltype( _mutex ) > lock_guard( _mutex );
         
@@ -61,8 +60,6 @@ namespace usagi
         }
         else
           _recursive_menu_render( _m );
-        
-        return { };
       }
       
       auto clear()
