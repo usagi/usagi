@@ -38,13 +38,13 @@ namespace usagi
       { return small_button_cloud_base_type::emplace( key, std::make_tuple( f, description ) ); }
       
       auto insert( const std::string& key, const small_button_cloud_functor_type& f )
-      { return small_button_cloud_base_type::emplace( key, std::make_tuple( f, std::string() ) ); }
+      { return small_button_cloud_base_type::insert( std::make_pair( key, std::make_tuple( f, std::string() ) ) ); }
       
       auto insert( const std::string& key, const std::string& description )
-      { return small_button_cloud_base_type::emplace( key, std::make_tuple( []{}, description ) ); }
+      { return small_button_cloud_base_type::insert( std::make_pair( key, std::make_tuple( []{}, description ) ) ); }
       
       auto insert( const std::string& key, const small_button_cloud_functor_type& f, const std::string& description )
-      { return small_button_cloud_base_type::emplace( key, std::make_tuple( f, description ) ); }
+      { return small_button_cloud_base_type::insert( std::make_pair( key, std::make_tuple( f, description ) ) ); }
       
       auto width() { return _width; }
       auto width( const decltype( _width ) in ) { return _width = in; }
