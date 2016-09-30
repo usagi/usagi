@@ -235,9 +235,9 @@ namespace usagi
         {
           // vertex transfar
           
-          constexpr GLenum    attribute     = GL_FLOAT;
-          constexpr GLboolean normalize_on  = static_cast< GLboolean >( true  );
-          constexpr GLboolean normalize_off = static_cast< GLboolean >( false );
+          constexpr GLenum attribute = GL_FLOAT;
+          const GLboolean normalize_on  = static_cast< GLboolean >( true  );
+          const GLboolean normalize_off = static_cast< GLboolean >( false );
           
           const auto program_id = get_current_program();
           
