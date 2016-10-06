@@ -28,7 +28,7 @@ namespace usagi
       if ( unzGoToFirstFile( file ) != UNZ_OK )
         return false;
       
-      for ( auto n = 0; n < global_info.number_entry; ++n )
+      for ( decltype( global_info.number_entry ) n = 0; n < global_info.number_entry; ++n )
       {
         std::string filename;
         filename.resize( 255, '\0' );
