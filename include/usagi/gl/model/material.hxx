@@ -168,6 +168,8 @@ namespace usagi
             
             ++current_texture_unit_number;
           }
+          
+          set_uniform( "count_of_textures", glm::i32vec1( static_cast< std::int32_t >( textures.size() ) ) );
         }
         
         auto unbind()
