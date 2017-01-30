@@ -1,5 +1,7 @@
 #pragma once
 
+#include "type.hxx"
+
 #include <picojson.h>
 
 namespace usagi::json::picojson

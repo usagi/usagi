@@ -1,5 +1,7 @@
 #pragma once
 
+#include "type.hxx"
+
 #include <picojson.h>
 
 #include <boost/algorithm/string.hpp>
@@ -9,24 +11,24 @@
 
 namespace usagi::json::picojson
 {
-  /// @brief picojson::value に対しドット区切りのパスで picojson::object の階層を辿り picojson::value を引っ張り出す
-  static inline auto get_value( const picojson::value& source, const std::string& dot_separated_path )
-    -> picojson::value&
+  /// @brief value_type に対しドット区切りのパスで object_type の階層を辿り value_type を引っ張り出す
+  static inline auto get_value( const value_type& source, const std::string& dot_separated_path )
+    -> value_type&
   {
     std::vector< std::string > path;
     boost::split( path, dot_separated_path, boost::is_any_of( "." ) );
     
-    auto out = const_cast< const picojson::value* >( &source );
+    auto out = const_cast< const value_type* >( &source );
     for ( const auto& path_part : path )
-      out = &out->get< picojson::object >().at( path_part );
+      out = &out->get< object_type >().at( path_part );
     
-    return const_cast< picojson::value& >( *out );
+    return const_cast< value_type& >( *out );
   }
   
   /// @brief get_value が out_of_range や runtime_error など例外で失敗する場合に optional で例外の送出をカバーする版
-  static inline auto get_value_optional( const picojson::value& source, const std::string& dot_separated_path )
+  static inline auto get_value_optional( const value_type& source, const std::string& dot_separated_path )
     noexcept
-    -> boost::optional< picojson::value& >
+    -> boost::optional< value_type& >
   {
     try
     { return get_value( source, dot_separated_path ); }
@@ -35,10 +37,10 @@ namespace usagi::json::picojson
   }
   
   /// @brief get_value + picojson::get + 可能な限りの自動的な型変換（ double や string を float で取り出したり、 null を string で取り出したりもできる ）
-  /// @param type_conversion true の場合には可能な限りの自動的な型変換を試みる。 false の場合には picojson::value::get のみ。
+  /// @param type_conversion true の場合には可能な限りの自動的な型変換を試みる。 false の場合には value_type::get のみ。
   template < typename T >
   static inline auto get_value_as
-  ( const picojson::value& source
+  ( const value_type& source
   , const std::string& dot_separated_path
   , const bool type_conversion = true
   ) -> T
@@ -70,12 +72,12 @@ namespace usagi::json::picojson
       }
     }
     
-    throw std::runtime_error( "cannot convert to a number type from picojson::value type." );
+    throw std::runtime_error( "cannot convert to a number type from value_type type." );
   }
   
   template < >
   inline auto get_value_as< double >
-  ( const picojson::value& source
+  ( const value_type& source
   , const std::string& dot_separated_path
   , const bool type_conversion
   ) -> double
@@ -108,7 +110,7 @@ namespace usagi::json::picojson
   
   template < >
   inline auto get_value_as< std::string >
-  ( const picojson::value& source
+  ( const value_type& source
   , const std::string& dot_separated_path
   , const bool type_conversion
   ) -> std::string
@@ -120,7 +122,7 @@ namespace usagi::json::picojson
     
     if ( type_conversion )
     {
-      // picojson::value の operator<< で string にして返す
+      // value_type の operator<< で string にして返す
       std::stringstream s;
       s << v;
       return s.str();
@@ -131,35 +133,35 @@ namespace usagi::json::picojson
   }
   
   template < >
-  inline auto get_value_as< picojson::object >
-  ( const picojson::value& source
+  inline auto get_value_as< object_type >
+  ( const value_type& source
   , const std::string& dot_separated_path
   , const bool type_conversion
-  ) -> picojson::object
+  ) -> object_type
   {
     const auto& v = get_value( source, dot_separated_path );
     
     // note: picojson による cast 失敗で適当な std::runtime_error が発行される
-    return v.get< picojson::object >();
+    return v.get< object_type >();
   }
   
   template < >
-  inline auto get_value_as< picojson::array >
-  ( const picojson::value& source
+  inline auto get_value_as< array_type >
+  ( const value_type& source
   , const std::string& dot_separated_path
   , const bool type_conversion
-  ) -> picojson::array
+  ) -> array_type
   {
     const auto& v = get_value( source, dot_separated_path );
     
     // note: picojson による cast 失敗で適当な std::runtime_error が発行される
-    return v.get< picojson::array >();
+    return v.get< array_type >();
   }
   
   /// @brief get_value_as が out_of_range や runtime_error など例外で失敗する場合に optional で例外の送出をカバーする版
   template < typename T >
   static inline auto get_value_as_optional
-  ( const picojson::value& source
+  ( const value_type& source
   , const std::string& dot_separated_path
   , const bool type_conversion = true
   ) noexcept -> boost::optional< T >
