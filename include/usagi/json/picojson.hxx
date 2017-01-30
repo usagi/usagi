@@ -9,6 +9,40 @@
 
 namespace usagi::json::picojson
 {
+  using object_type = picojson::object;
+  using array_type  = picojson::array;
+  using value_type  = picojson::value;
+  using null_type   = picojson::null;
+  
+  static inline auto emplace( object_type& o, const std::string& k, const null_type ) { o.emplace( k, value_type() ); }
+  static inline auto emplace( object_type& o, const std::string& k, const value_type& v ) { o.emplace( k, v ); }
+  static inline auto emplace( object_type& o, const std::string& k, const array_type& v ) { o.emplace( k, value_type( v ) ); }
+  static inline auto emplace( object_type& o, const std::string& k, const object_type& v ) { o.emplace( k, value_type( v ) ); }
+  static inline auto emplace( object_type& o, const std::string& k, const char* v ) { o.emplace( k, value_type( v ) ); }
+  static inline auto emplace( object_type& o, const std::string& k, const std::string& v ) { o.emplace( k, value_type( v ) ); }
+
+  template < typename T >
+  static inline auto emplace( object_type& o, const std::string& k, const T& v )
+  { o.emplace( k, static_cast< double >( v ) ); }
+
+  static inline auto make_parameters_internal( object_type& )
+  { }
+
+  template < typename HEAD, typename ... TAIL >
+  static inline auto make_parameters_internal( object_type& o, const std::string& k, const HEAD& v, const TAIL& ... vs )
+  {
+    emplace( o, k, v );
+    make_parameters_internal( o, vs ... );
+  }
+
+  template < typename ... TS >
+  static inline auto make_parameters( const TS& ... vs )
+  {
+    object_type o;
+    make_parameters_internal( o, vs ... );
+    return o;
+  }
+  
   /// @brief picojson::value に対しドット区切りのパスで picojson::object の階層を辿り picojson::value を引っ張り出す
   static inline auto get_value( const picojson::value& source, const std::string& dot_separated_path )
     -> picojson::value&
