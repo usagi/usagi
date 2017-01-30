@@ -25,21 +25,21 @@ namespace usagi::json::picojson
   static inline auto emplace( object_type& o, const std::string& k, const T& v )
   { o.emplace( k, static_cast< double >( v ) ); }
 
-  static inline auto make_parameters_internal( object_type& )
+  static inline auto make_object_internal( object_type& )
   { }
 
   template < typename HEAD, typename ... TAIL >
-  static inline auto make_parameters_internal( object_type& o, const std::string& k, const HEAD& v, const TAIL& ... vs )
+  static inline auto make_object_internal( object_type& o, const std::string& k, const HEAD& v, const TAIL& ... vs )
   {
     emplace( o, k, v );
-    make_parameters_internal( o, vs ... );
+    make_object_internal( o, vs ... );
   }
 
   template < typename ... TS >
-  static inline auto make_parameters( const TS& ... vs )
+  static inline auto make_object( const TS& ... vs )
   {
     object_type o;
-    make_parameters_internal( o, vs ... );
+    make_object_internal( o, vs ... );
     return o;
   }
   
