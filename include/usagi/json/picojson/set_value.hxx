@@ -84,6 +84,9 @@ namespace usagi::json::picojson
   static inline auto set_value( object_type& root_object, const std::string& dot_separated_path, const char* element_value )
   { set_value( root_object, dot_separated_path, value_type( element_value ) ); }
   
+  static inline auto set_value( object_type& root_object, const std::string& dot_separated_path, const bool element_value )
+  { set_value( root_object, dot_separated_path, value_type( element_value ) ); }
+  
   /// root_value が object_type を内包する value_type の場合に対応する set_value の syntax sugar ラッパー
   template < typename T = null_type >
   static inline auto set_value( value_type& root_value, const std::string& dot_separated_path, T&& element_value = T() )
