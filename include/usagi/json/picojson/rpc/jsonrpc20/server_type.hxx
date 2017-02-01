@@ -55,22 +55,11 @@ namespace usagi::json::picojson::rpc::jsonrpc20
       
       auto operator()( const std::string& request_string )
       {
-        try
-        {
-          value_type request;
-          const auto& e = ::picojson::parse( request, request_string );
-          if ( not e.empty() )
-            return make_error_from_request( request, exception_type( error_code_type::parse_error ) );
-          return operator()( request );
-        }
-        catch ( const exception_type& e )
-        { return make_error_from_request( request, e ); }
-        catch ( const std::out_of_range& e )
-        { return make_error_from_request( request, exception_type( error_code_type::method_not_found ) ); }
-        catch ( const std::exception& e )
-        { return make_error_from_request( request, exception_type( error_code_type::internal_error, e.what() ) ); }
-        catch ( ... )
-        { return make_error_from_request( request, exception_type( error_code_type::internal_error ) ); }
+        value_type request;
+        const auto& e = ::picojson::parse( request, request_string );
+        if ( not e.empty() )
+          return make_error_from_request( request, exception_type( error_code_type::parse_error ) );
+        return operator()( request );
       }
   };
 }
