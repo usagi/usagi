@@ -57,7 +57,7 @@ namespace usagi::json::picojson::rpc::jsonrpc20
       {
         try
         {
-          picojson::value request;
+          value_type request;
           const auto& e = picojson::parse( request, request_string );
           if ( not e.empty() )
             return make_error_from_request( request, exception_type( error_code_type::parse_error ) );
