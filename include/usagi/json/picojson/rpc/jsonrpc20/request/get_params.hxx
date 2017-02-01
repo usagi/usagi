@@ -1,13 +1,13 @@
 #pragma once
 
-#include "error.hxx";
-#include "constant.hxx";
-#include "../type.hxx";
+#include "../../../type.hxx"
+#include "../error_code_type.hxx"
+#include "../constant.hxx"
 
 namespace usagi::json::picojson::rpc::jsonrpc20
 {
   
-  static inline decltype( auto ) get_params
+  static inline auto get_params
   ( const object_type& request
   ) noexcept
   {
@@ -19,7 +19,7 @@ namespace usagi::json::picojson::rpc::jsonrpc20
     { return value_type(); }
   }
   
-  static inline decltype( auto ) get_params
+  static inline auto get_params
   ( const value_type& request
   )
   {

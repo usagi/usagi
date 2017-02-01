@@ -1,12 +1,15 @@
 #pragma once
 
+#include "request.hxx"
+#include "response.hxx"
+
+#include <boost/signals2/signal.hpp>
+
 #include <string>
 #include <functional>
 #include <unordered_map>
 
-#include <boost/signals2/signal.hpp>
-
-namespace usagi::json::picojson::jsonrpc20
+namespace usagi::json::picojson::rpc::jsonrpc20
 {
   class server_type
   {
@@ -30,7 +33,11 @@ namespace usagi::json::picojson::jsonrpc20
       {
         try
         {
-          const auto& [ method, params ] = extract_request( request );
+          //const auto& [ method, params ] = extract_request( request );
+          auto x = get_method( request );
+          const auto& method_params = extract_request( request );
+          const auto& method = std::get< 0 >( method_params );
+          const auto& params = std::get< 1 >( method_params );
           auto optional_result = mapper.at( method )( params );
           if ( not optional_result )
             throw exception_type( error_code_type::method_not_found, "sigal is empty." );

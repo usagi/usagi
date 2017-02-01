@@ -4,3 +4,4 @@
 #include "picojson/make_object.hxx"
 #include "picojson/get_value.hxx"
 #include "picojson/set_value.hxx"
+#include "picojson/rpc.hxx"

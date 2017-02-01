@@ -1,7 +1,7 @@
 #pragma once
 
-#include "constant.hxx";
-#include "../type.hxx";
+#include "constant.hxx"
+#include "../../type.hxx"
 
 namespace usagi::json::picojson::rpc::jsonrpc20
 {
@@ -23,7 +23,7 @@ namespace usagi::json::picojson::rpc::jsonrpc20
     noexcept -> value_type
   {
     try
-    { return get_id( in.get< ojbect_type >() ); }
+    { return get_id( in.get< object_type >() ); }
     catch ( ... )
     { return { }; }
   }

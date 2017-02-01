@@ -1,6 +1,8 @@
 #pragma once
 
-#include <stdint>
+#include "../../type.hxx"
+
+#include <cstdint>
 #include <string>
 #include <type_traits>
 
@@ -148,7 +150,7 @@ namespace usagi::json::picojson::rpc::jsonrpc20
       case error_code_type::internal_error:
         return "Internal error";
       default:
-        if ( n >= error_code_type::server_error_00 and n <= error_code_type::server_error_99 )
+        if ( e >= error_code_type::server_error_00 and e <= error_code_type::server_error_99 )
           return "Server error ( " + std::to_string( static_cast< std::underlying_type_t< error_code_type > >( e )  ) + " )";
      }
     

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "../../type.hxx";
-#include "../../make_object.hxx";
+#include "../../../type.hxx"
+#include "../../../make_object.hxx"
 
-#include "../error_code_type.hxx";
-#include "../exception_type.hxx";
-#include "../constant.hxx";
-#include "../get_id.hxx";
+#include "../error_code_type.hxx"
+#include "../exception_type.hxx"
+#include "../constant.hxx"
+#include "../get_id.hxx"
 
 namespace usagi::json::picojson::rpc::jsonrpc20
 {
@@ -16,11 +16,14 @@ namespace usagi::json::picojson::rpc::jsonrpc20
   , const value_type& id    = value_type()
   ) -> value_type
   {
-    return make_object
-    ( key_jsonrpc , value_jsonrpc
-    , key_error   , error
-    , key_id      , id
-    );
+    return
+      value_type
+      ( make_object
+        ( key_jsonrpc , value_jsonrpc
+        , key_error   , error
+        , key_id      , id
+        )
+      );
   }
   
   static inline auto make_error_from_request
@@ -28,7 +31,8 @@ namespace usagi::json::picojson::rpc::jsonrpc20
   , const value_type& error   = value_type()
   ) -> value_type
   {
-    return make_error
+    return
+      make_error
       ( error
       , get_id( request )
       );
@@ -41,13 +45,16 @@ namespace usagi::json::picojson::rpc::jsonrpc20
   , const value_type&       id            = value_type()
   ) -> value_type
   {
-    return make_error
-      ( make_error
-        ( key_code    , to_number( e )
-        , key_message , message.empty()
-                          ? to_string( e )
-                          : message
-        , key_data    , data
+    return
+      make_error
+      ( value_type
+        ( make_object
+          ( key_code    , to_number( error_code )
+          , key_message , error_message.empty()
+                            ? to_string( error_code )
+                            : error_message
+          , key_data    , data
+          )
         )
       , id
       );
@@ -60,7 +67,8 @@ namespace usagi::json::picojson::rpc::jsonrpc20
   , const value_type&       data          = value_type()
   ) -> value_type
   {
-    return make_error
+    return
+      make_error
       ( error_code
       , error_message
       , data
@@ -73,9 +81,10 @@ namespace usagi::json::picojson::rpc::jsonrpc20
   , const value_type&     id = value_type()
   ) -> value_type
   {
-    return make_error
+    return
+      make_error
       ( e.error_code
-      , e.error_message
+      , e.what()
       , value_type()
       , id
       );
@@ -83,10 +92,11 @@ namespace usagi::json::picojson::rpc::jsonrpc20
   
   static inline auto make_error_from_request
   ( const value_type& request
-  ( const exception_type& e
+  , const exception_type& e
   ) -> value_type
   {
-    return make_error
+    return
+      make_error
       ( e
       , get_id( request )
       );

@@ -1,8 +1,9 @@
 #pragma once
 
-#include "error.hxx";
-#include "constant.hxx";
-#include "../type.hxx";
+#include "../../../type.hxx"
+
+#include "../error_code_type.hxx"
+#include "../constant.hxx"
 
 namespace usagi::json::picojson::rpc::jsonrpc20
 {

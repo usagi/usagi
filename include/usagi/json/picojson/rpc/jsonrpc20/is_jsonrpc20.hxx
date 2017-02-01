@@ -1,14 +1,6 @@
 #pragma once
 
-#include "../../type.hxx";
-#include "../../make_object.hxx";
-
-#include "../error.hxx";
-#include "../constant.hxx";
-#include "../get_id.hxx";
-
-#include "get_method.hxx";
-#include "get_params.hxx";
+#include "constant.hxx"
 
 namespace usagi::json::picojson::rpc::jsonrpc20
 {
@@ -18,7 +10,7 @@ namespace usagi::json::picojson::rpc::jsonrpc20
   ) noexcept -> bool
   {
     try
-    { return o.at( key_jsonrpc ) = value_jsonrpc ); }
+    { return request.at( key_jsonrpc ).get< std::string >() == value_jsonrpc; }
     catch ( ... )
     { return false; }
   }
