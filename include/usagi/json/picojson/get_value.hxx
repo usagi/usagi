@@ -136,7 +136,7 @@ namespace usagi::json::picojson
   inline auto get_value_as< object_type >
   ( const value_type& source
   , const std::string& dot_separated_path
-  , const bool type_conversion
+  , const bool
   ) -> object_type
   {
     const auto& v = get_value( source, dot_separated_path );
@@ -149,7 +149,7 @@ namespace usagi::json::picojson
   inline auto get_value_as< array_type >
   ( const value_type& source
   , const std::string& dot_separated_path
-  , const bool type_conversion
+  , const bool
   ) -> array_type
   {
     const auto& v = get_value( source, dot_separated_path );
