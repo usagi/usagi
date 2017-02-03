@@ -42,8 +42,8 @@ namespace usagi::json::picojson
   
   /// @brief nan, inf を与えても picojson::value の ctor の isnan, isinf からの std::overflow_error を回避して無理矢理 nan, inf を持つ picojson::value を生成する版
   /// @warning ECMA-404 としては不正、シリアライズで nan, inf が発生した JSON もどき文字列を picojson::parse してもエラーとなる。永遠の decrecated
-  [[deprecated]]
   template < typename T >
+  [[deprecated]]
   static inline auto make_value_nanable
   ( const T v
   ) -> value_type
