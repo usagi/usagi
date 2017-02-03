@@ -20,9 +20,31 @@ namespace usagi::json::picojson
   static inline auto make_value( std::string&&      in ) -> value_type { return value_type( std::move( in ) ); }
   static inline auto make_value( const bool         in ) -> value_type { return value_type( in ); }
   
-  /// @note: nan, inf を入力した場合も例外を起こさず nan, inf を保持した value_type を生成する
+  /// @exception std::overflow_error nan, inf を与えた場合、 picojson::value の ctor から例外が送出される可能性がある
   template < typename T >
   static inline auto make_value
+  ( const T v
+  ) noexcept -> value_type
+  {
+    return value_type( static_cast< double >( v ) );
+  }
+  
+  /// @brief picojson::value へ double を与えて構築する場合の nan, inf による std::overflow_error 例外を抑止する版
+  /// @note nan, inf を入力した場合は null になる
+  template < typename T >
+  static inline auto make_value_noexcept
+  ( const T v
+  ) noexcept -> value_type
+  {
+    try { return make_value( v ); }
+    catch ( const std::overflow_error& ) { return value_type(); }
+  }
+  
+  /// @brief nan, inf を与えても picojson::value の ctor の isnan, isinf からの std::overflow_error を回避して無理矢理 nan, inf を持つ picojson::value を生成する版
+  /// @warning ECMA-404 としては不正、シリアライズで nan, inf が発生した JSON もどき文字列を picojson::parse してもエラーとなる。永遠の decrecated
+  [[deprecated]]
+  template < typename T >
+  static inline auto make_value_nanable
   ( const T v
   ) -> value_type
   {
