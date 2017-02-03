@@ -20,9 +20,15 @@ namespace usagi::json::picojson
   static inline auto make_value( std::string&&      in ) -> value_type { return value_type( std::move( in ) ); }
   static inline auto make_value( const bool         in ) -> value_type { return value_type( in ); }
   
+  /// @note: nan, inf を入力した場合も例外を起こさず nan, inf を保持した value_type を生成する
   template < typename T >
   static inline auto make_value
   ( const T v
   ) -> value_type
-  { return value_type( static_cast< double >( v ) ); }
+  {
+    // nan, inf の場合に exception を起こさないトリック
+    value_type r( number_type( 0 ) );
+    r.get< number_type >() = static_cast< double >( v );
+    return r;
+  }
 }
