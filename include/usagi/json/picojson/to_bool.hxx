@@ -1,6 +1,3 @@
-/// @file
-/// @brief 任意の何かから value_type を"生成"する make_value さん群
-
 #pragma once
 
 #include "type.hxx"
