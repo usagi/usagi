@@ -18,6 +18,7 @@ namespace usagi::json::picojson
   static inline auto make_value( const char*        in ) -> value_type { return value_type( in ); }
   static inline auto make_value( const std::string& in ) -> value_type { return value_type( in ); }
   static inline auto make_value( std::string&&      in ) -> value_type { return value_type( std::move( in ) ); }
+  static inline auto make_value( const bool         in ) -> value_type { return value_type( in ); }
   
   template < typename T >
   static inline auto make_value
