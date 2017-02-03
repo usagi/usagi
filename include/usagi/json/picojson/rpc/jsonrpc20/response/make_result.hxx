@@ -16,13 +16,11 @@ namespace usagi::json::picojson::rpc::jsonrpc20
   ) -> value_type
   {
     return
-    value_type
-    ( make_object
+      make_object_value
       ( key_jsonrpc , value_jsonrpc
       , key_result  , result
       , key_id      , id
-      )
-    );
+      );
   }
   
   static inline auto make_result_from_request
@@ -30,7 +28,8 @@ namespace usagi::json::picojson::rpc::jsonrpc20
   , const value_type& result  = value_type()
   ) -> value_type
   {
-    return make_result
+    return
+      make_result
       ( result
       , get_id( request )
       );

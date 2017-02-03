@@ -17,12 +17,10 @@ namespace usagi::json::picojson::rpc::jsonrpc20
   ) -> value_type
   {
     return
-      value_type
-      ( make_object
-        ( key_jsonrpc , value_jsonrpc
-        , key_error   , error
-        , key_id      , id
-        )
+      make_object_value
+      ( key_jsonrpc , value_jsonrpc
+      , key_error   , error
+      , key_id      , id
       );
   }
   
@@ -47,14 +45,12 @@ namespace usagi::json::picojson::rpc::jsonrpc20
   {
     return
       make_error
-      ( value_type
-        ( make_object
-          ( key_code    , to_number( error_code )
-          , key_message , error_message.empty()
-                            ? to_string( error_code )
-                            : error_message
-          , key_data    , data
-          )
+      ( make_object_value
+        ( key_code    , to_number( error_code )
+        , key_message , error_message.empty()
+                          ? to_string( error_code )
+                          : error_message
+        , key_data    , data
         )
       , id
       );

@@ -18,14 +18,12 @@ namespace usagi::json::picojson::rpc::jsonrpc20
   ) -> value_type
   {
     return
-    value_type
-    ( make_object
+      make_object_value
       ( key_jsonrpc , value_jsonrpc
       , key_method  , method
       , key_params  , params
       , key_id      , id
-      )
-    );
+      );
   }
   
   static inline auto make_request_with_uuidv4
@@ -33,7 +31,8 @@ namespace usagi::json::picojson::rpc::jsonrpc20
   , const value_type& params = value_type()
   )
   {
-    return make_request
+    return
+      make_request
       ( method
       , params
       , value_type( boost::uuids::to_string( boost::uuids::random_generator()() ) )
