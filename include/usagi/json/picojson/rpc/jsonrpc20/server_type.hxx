@@ -18,7 +18,7 @@ namespace usagi::json::picojson::rpc::jsonrpc20
       using method_functor_type = std::function< method_signature_type >;
       using method_signal_type = boost::signals2::signal< method_signature_type >;
       using method_slot_type = method_signal_type::slot_type;
-    private:
+    protected:
       std::unordered_map< std::string, method_signal_type > mapper;
     public:
       auto connect( const std::string& method, const method_functor_type& functor )
