@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../../type.hxx"
-#include "type.hxx"
 
 #include <boost/optional.hpp>
 
