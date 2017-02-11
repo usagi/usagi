@@ -19,4 +19,18 @@ namespace usagi::json::picojson::io::stream
     
     return v;
   }
+  
+  static inline auto load( std::istreambuf_iterator< char > in )
+    -> value_type
+  {
+    std::string e;
+    value_type v;
+    
+    ::picojson::parse( v, in, std::istreambuf_iterator< char >(), &e );
+    
+    if ( not e.empty() )
+      throw std::runtime_error( e );
+    
+    return v;
+  }
 }
