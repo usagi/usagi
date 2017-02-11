@@ -20,7 +20,7 @@ namespace usagi::json::picojson::io::filesystem
     return stream::load( std::istreambuf_iterator< char >( f ) );
   }
   
-  static inline auto load_optional( const filesystem_path& in )
+  static inline auto load_optional( const path_type& in )
     -> boost::optional< value_type >
   { 
     try
