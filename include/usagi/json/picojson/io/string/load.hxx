@@ -2,7 +2,7 @@
 
 #include "../../type.hxx"
 
-inline namespace usagi::json::picojson::io::string
+namespace usagi::json::picojson::io::string
 {
   static inline auto load( const std::string& json_string )
     -> value_type

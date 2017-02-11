@@ -2,7 +2,7 @@
 
 #include "../../type.hxx"
 
-inline namespace usagi::json::picojson::io::string
+namespace usagi::json::picojson::io::string
 {
   static inline auto store( const value_type& in, string_type& out )
   {
