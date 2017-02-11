@@ -6,3 +6,4 @@
 #include "picojson/get_value.hxx"
 #include "picojson/set_value.hxx"
 #include "picojson/rpc.hxx"
+#include "picojson/io.hxx"
