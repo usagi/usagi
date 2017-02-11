@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../type.hxx"
+#include "../../type.hxx"
 
 inline namespace usagi::json::picojson::io::string
 {
