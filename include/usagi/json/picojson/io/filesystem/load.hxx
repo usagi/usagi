@@ -17,7 +17,7 @@ namespace usagi::json::picojson::io::filesystem
     f.exceptions( std::ifstream::failbit | std::ifstream::badbit );
     f.open( filesystem_path.string() );
     
-    return steam::load( std::istreambuf_iterator< char >( f ) );
+    return stream::load( std::istreambuf_iterator< char >( f ) );
   }
   
   static inline auto load_optional( const filesystem_path& in )
