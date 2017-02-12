@@ -12,7 +12,7 @@ namespace usagi
   {
     using default_clock =
 #ifdef _WIN32
-      windows_query_performance_counter_clock
+      windows_query_performance_counter_clock<>
 #else
       std::chrono::steady_clock
 #endif

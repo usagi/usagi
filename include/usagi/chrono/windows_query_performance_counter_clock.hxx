@@ -4,6 +4,7 @@
 #pragma once
 
 #include "../environment_special_support.hxx"
+#include "to_time_t.hxx"
 #include <chrono>
 
 #ifdef _WIN32

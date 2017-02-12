@@ -5,7 +5,12 @@
 /// LOGD ... debug レベルのログメッセージ出力（緑色）
 /// LOGW ... warn  レベルのログメッセージ出力（黄色）
 /// LOGE ... error レベルのログメッセージ出力（赤色）
-/// @note DISABLE_USAGI_LOG_EASY_LOGGER が定義されている場合、全てのログ出力は事実上無効になる。
+/// @note
+/// (a): USE_USAGI_LOG_EASY_LOGGER_BOOST_CPU_TIMER が定義されている場合、時間計測に boost::timer::cpu_timer を使用する（ boost.timer 関連のライブラリーのリンクが必要 ）
+/// (b): USE_USAGI_LOG_EASY_LOGGER_BOOST_CHRONO が定義されている場合、時間計測に boost::chrono::high_resolution_clock を使用する ( boost.chrono 関連のライブラリーのリンクが必要)
+/// (c): USE_USAGI_LOG_EASY_LOGGER_STD_CHRONO が定義されている場合、時間計測に std::chrono::high_resolution_clock を使用する（ 外部ライブラリーのリンクは不要だが、処理系によっては分解能が不足する ）
+/// (d): (a), (b), (c) の何れも定義されていない場合、時間計測に usagi::chrono::default_clock を使用する（ 外部ライブラリーは不要、windows処理系でもQueryPerformanceCounterを内部的に使用する ）
+/// (f): DISABLE_USAGI_LOG_EASY_LOGGER が定義されている場合、全てのログ出力は事実上無効になる。
 
 #pragma once
 
@@ -25,7 +30,23 @@
 
 #endif
 
-#include <boost/timer/timer.hpp>
+#ifdef USE_USAGI_LOG_EASY_LOGGER_BOOST_CPU_TIMER
+  #include <boost/timer/timer.hpp>
+#else
+  #ifndef USAGI_LOG_EASY_LOGGER_CLOCK_TYPE
+    #ifdef USE_USAGI_LOG_EASY_LOGGER_BOOST_CHRONO
+      #include <boost/chrono.hpp>
+      #define USAGI_LOG_EASY_LOGGER_CLOCK_TYPE boost::chrono::steady_clock
+    #elif defined( USE_USAGI_LOG_EASY_LOGGER_STD_CHRONO )
+      #include <chrono>
+      #define USAGI_LOG_EASY_LOGGER_CLOCK_TYPE std::chrono::steady_clock
+    #else
+      #include "../chrono/default_clock.hxx"
+      #define USAGI_LOG_EASY_LOGGER_CLOCK_TYPE usagi::chrono::default_clock
+    #endif
+  #endif
+#endif
+
 #include <string>
 #include <iostream>
 #include <iomanip>
@@ -33,14 +54,30 @@
 namespace usagi::log::easy_logger
 {
   using namespace std;
+
+#ifndef USE_USAGI_LOG_EASY_LOGGER_BOOST_CPU_TIMER
+  #ifdef USE_USAGI_LOG_EASY_LOGGER_BOOST_CHRONO
+    using namespace boost::chrono;
+  #else
+    using namespace std::chrono;
+  #endif
+#endif
   
-  boost::timer::cpu_timer global_timer;
+#ifdef DISABLE_USAGI_LOG_EASY_LOGGER
   
   struct log_null
   {
     template < typename T >
     decltype( auto ) operator<<( const T& ) { return *this; }
   };
+  
+#else
+  
+#ifdef USE_USAGI_LOG_EASY_LOGGER_BOOST_CPU_TIMER
+  boost::timer::cpu_timer global_timer;
+#else
+  const auto global_start_time = USAGI_LOG_EASY_LOGGER_CLOCK_TYPE::now();
+#endif
   
   struct log_intermediate
   {
@@ -63,7 +100,7 @@ namespace usagi::log::easy_logger
     static constexpr auto suffix_w = "\x1b[0m";
     static constexpr auto suffix_e = "\x1b[0m";
     
-    static constexpr auto log_time_width = 13;
+    static constexpr auto log_time_width = 16;
     
     log_intermediate( log_intermediate&& a )
       : buffer( move( a.buffer ) )
@@ -104,7 +141,15 @@ namespace usagi::log::easy_logger
       {
         cout
           << prefix
-          << "[ " << setw( log_time_width ) << global_timer.elapsed().wall << " ]"
+          << "[ " << setw( log_time_width )
+          << setprecision( 9 )
+          << fixed
+#ifdef USE_USAGI_LOG_EASY_LOGGER_BOOST_CPU_TIMER
+          << static_cast< long double >( global_timer.elapsed().wall ) * 1.0e-9
+#else
+          << duration_cast< duration< long double > >( USAGI_LOG_EASY_LOGGER_CLOCK_TYPE::now() - global_start_time ).count()
+#endif
+          << " ]"
              "\t"
           << buffer.str()
           << "\t"
@@ -119,4 +164,7 @@ namespace usagi::log::easy_logger
       { cerr << "\n\n<<<<<\nexception on " << __PRETTY_FUNCTION__ << "\nunknown\n>>>>>\n\n"; }
     }
   };
+
+#endif
+
 }

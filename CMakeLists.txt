@@ -10,6 +10,10 @@ if ( EXAMPLES )
   include_directories(${CMAKE_CURRENT_BINARY_DIR}/include)
   link_directories(${CMAKE_CURRENT_BINARY_DIR}/lib)
   
+  find_package( Boost REQUIRED COMPONENTS coroutine context timer )
+  
+  add_executable( easy_logger           example/easy_logger.cxx )
+  
   add_executable( mutex                 example/mutex.cxx )
   find_package( Threads REQUIRED )
   target_link_libraries( mutex ${CMAKE_THREAD_LIBS_INIT} )
@@ -19,7 +23,6 @@ if ( EXAMPLES )
   add_executable( wake_ptr              example/wake_ptr.cxx )
   
   add_executable( yieldable_task_system example/yieldable_task_system.cxx )
-  find_package( Boost REQUIRED COMPONENTS coroutine context )
   include_directories( ${Boost_INCLUDE_DIRS} )
   target_link_libraries( yieldable_task_system ${Boost_LIBRARIES} )
   
