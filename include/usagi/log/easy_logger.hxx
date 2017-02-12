@@ -1,6 +1,9 @@
 #pragma once
 
 #include <boost/timer/timer.hpp>
+#include <string>
+#include <iostream>
+#include <iomanip>
 
 namespace usagi::log::easy_logger
 {
