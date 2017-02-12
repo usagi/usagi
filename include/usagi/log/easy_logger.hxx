@@ -1,4 +1,29 @@
+/// @file
+/// @brief すぐ使える実用的な簡易ロガー
+/// @description LOGI, LOGD, LOGW, LOGE の4つのマクロが定義され、それぞれをログ出力ストリームと見做して LOGI << "hoge"; のように使う。
+/// LOGI ... info  レベルのログメッセージ出力（白色）
+/// LOGD ... debug レベルのログメッセージ出力（緑色）
+/// LOGW ... warn  レベルのログメッセージ出力（黄色）
+/// LOGE ... error レベルのログメッセージ出力（赤色）
+/// @note DISABLE_USAGI_LOG_EASY_LOGGER が定義されている場合、全てのログ出力は事実上無効になる。
+
 #pragma once
+
+#ifdef DISABLE_USAGI_LOG_EASY_LOGGER
+
+#define LOGI ::usagi::log::easy_logger::log_null()
+#define LOGD ::usagi::log::easy_logger::log_null()
+#define LOGW ::usagi::log::easy_logger::log_null()
+#define LOGE ::usagi::log::easy_logger::log_null()
+
+#else
+
+#define LOGI ::usagi::log::easy_logger::log_intermediate::make_info ( __FILE__, __LINE__, __PRETTY_FUNCTION__ ) << '\t'
+#define LOGD ::usagi::log::easy_logger::log_intermediate::make_debug( __FILE__, __LINE__, __PRETTY_FUNCTION__ ) << '\t'
+#define LOGW ::usagi::log::easy_logger::log_intermediate::make_warn ( __FILE__, __LINE__, __PRETTY_FUNCTION__ ) << '\t'
+#define LOGE ::usagi::log::easy_logger::log_intermediate::make_error( __FILE__, __LINE__, __PRETTY_FUNCTION__ ) << '\t'
+
+#endif
 
 #include <boost/timer/timer.hpp>
 #include <string>
@@ -10,6 +35,12 @@ namespace usagi::log::easy_logger
   using namespace std;
   
   boost::timer::cpu_timer global_timer;
+  
+  struct log_null
+  {
+    template < typename T >
+    decltype( auto ) operator<<( const T& ) { return *this; }
+  };
   
   struct log_intermediate
   {
@@ -89,8 +120,3 @@ namespace usagi::log::easy_logger
     }
   };
 }
-
-#define LOGI ::usagi::log::easy_logger::log_intermediate::make_info ( __FILE__, __LINE__, __PRETTY_FUNCTION__ ) << '\t'
-#define LOGD ::usagi::log::easy_logger::log_intermediate::make_debug( __FILE__, __LINE__, __PRETTY_FUNCTION__ ) << '\t'
-#define LOGW ::usagi::log::easy_logger::log_intermediate::make_warn ( __FILE__, __LINE__, __PRETTY_FUNCTION__ ) << '\t'
-#define LOGE ::usagi::log::easy_logger::log_intermediate::make_error( __FILE__, __LINE__, __PRETTY_FUNCTION__ ) << '\t'
