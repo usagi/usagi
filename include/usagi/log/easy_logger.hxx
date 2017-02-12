@@ -7,8 +7,8 @@
 /// LOGE ... error レベルのログメッセージ出力（赤色）
 /// @note
 /// (a): USE_USAGI_LOG_EASY_LOGGER_BOOST_CPU_TIMER が定義されている場合、時間計測に boost::timer::cpu_timer を使用する（ boost.timer 関連のライブラリーのリンクが必要 ）
-/// (b): USE_USAGI_LOG_EASY_LOGGER_BOOST_CHRONO が定義されている場合、時間計測に boost::chrono::high_resolution_clock を使用する ( boost.chrono 関連のライブラリーのリンクが必要)
-/// (c): USE_USAGI_LOG_EASY_LOGGER_STD_CHRONO が定義されている場合、時間計測に std::chrono::high_resolution_clock を使用する（ 外部ライブラリーのリンクは不要だが、処理系によっては分解能が不足する ）
+/// (b): USE_USAGI_LOG_EASY_LOGGER_BOOST_CHRONO が定義されている場合、時間計測に boost::chrono::steady_clock を使用する ( boost.chrono 関連のライブラリーのリンクが必要)
+/// (c): USE_USAGI_LOG_EASY_LOGGER_STD_CHRONO が定義されている場合、時間計測に std::chrono::steady_clock を使用する（ 外部ライブラリーのリンクは不要だが、処理系によっては分解能が不足する ）
 /// (d): (a), (b), (c) の何れも定義されていない場合、時間計測に usagi::chrono::default_clock を使用する（ 外部ライブラリーは不要、windows処理系でもQueryPerformanceCounterを内部的に使用する ）
 /// (f): DISABLE_USAGI_LOG_EASY_LOGGER が定義されている場合、全てのログ出力は事実上無効になる。
 
