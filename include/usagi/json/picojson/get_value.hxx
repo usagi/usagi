@@ -40,13 +40,10 @@ namespace usagi::json::picojson
   /// @param type_conversion true の場合には可能な限りの自動的な型変換を試みる。 false の場合には value_type::get のみ。
   template < typename T >
   static inline auto get_value_as
-  ( const value_type& source
-  , const std::string& dot_separated_path
+  ( const value_type& v
   , const bool type_conversion = true
   ) -> T
   {
-    const auto& v = get_value( source, dot_separated_path );
-    
     if ( type_conversion )
     {
       // T が数値型の場合の変換込みの処理
@@ -77,13 +74,10 @@ namespace usagi::json::picojson
   
   template < >
   inline auto get_value_as< double >
-  ( const value_type& source
-  , const std::string& dot_separated_path
+  ( const value_type& v
   , const bool type_conversion
   ) -> double
   {
-    const auto& v = get_value( source, dot_separated_path );
-    
     if ( v.is< double >() )
       return v.get< double >();
     
@@ -110,13 +104,10 @@ namespace usagi::json::picojson
   
   template < >
   inline auto get_value_as< std::string >
-  ( const value_type& source
-  , const std::string& dot_separated_path
+  ( const value_type& v
   , const bool type_conversion
   ) -> std::string
   {
-    const auto& v = get_value( source, dot_separated_path );
-    
     if ( v.is< std::string >() )
       return v.get< std::string >();
     
@@ -134,31 +125,48 @@ namespace usagi::json::picojson
   
   template < >
   inline auto get_value_as< object_type >
-  ( const value_type& source
-  , const std::string& dot_separated_path
+  ( const value_type& v
   , const bool
   ) -> object_type
   {
-    const auto& v = get_value( source, dot_separated_path );
-    
     // note: picojson による cast 失敗で適当な std::runtime_error が発行される
     return v.get< object_type >();
   }
   
   template < >
   inline auto get_value_as< array_type >
-  ( const value_type& source
-  , const std::string& dot_separated_path
+  ( const value_type& v
   , const bool
   ) -> array_type
   {
-    const auto& v = get_value( source, dot_separated_path );
-    
     // note: picojson による cast 失敗で適当な std::runtime_error が発行される
     return v.get< array_type >();
   }
   
+  template < typename T >
+  static inline auto get_value_as
+  ( const value_type& source
+  , const std::string& dot_separated_path
+  , const bool type_conversion = true
+  ) -> T
+  {
+    const auto& v = get_value( source, dot_separated_path );
+    return get_value_as< T >( v, type_conversion );
+  }
+  
   /// @brief get_value_as が out_of_range や runtime_error など例外で失敗する場合に optional で例外の送出をカバーする版
+  template < typename T >
+  static inline auto get_value_as_optional
+  ( const value_type& source
+  , const bool type_conversion = true
+  ) noexcept -> boost::optional< T >
+  {
+    try
+    { return get_value_as< T >( source, type_conversion ); }
+    catch ( ... )
+    { return { }; }
+  }
+  
   template < typename T >
   static inline auto get_value_as_optional
   ( const value_type& source
