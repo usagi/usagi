@@ -11,6 +11,8 @@
 /// (c): USE_USAGI_LOG_EASY_LOGGER_STD_CHRONO が定義されている場合、時間計測に std::chrono::steady_clock を使用する（ 外部ライブラリーのリンクは不要だが、処理系によっては分解能が不足する ）
 /// (d): (a), (b), (c) の何れも定義されていない場合、時間計測に usagi::chrono::default_clock を使用する（ 外部ライブラリーは不要、windows処理系でもQueryPerformanceCounterを内部的に使用する ）
 /// (f): DISABLE_USAGI_LOG_EASY_LOGGER が定義されている場合、全てのログ出力は事実上無効になる。
+/// USAGI_LOG_EASY_LOGGER_GET_{ FUNCTION | FILE | LINE } を事前に定義しておくとユーザー定義の何かそういうものに置き換え可能。（ "" をユーザー定義すれば出力から消す事も可能。 ）
+/// USAGI_LOG_EASY_LOGGER_{INFO|DEBUG|WARN|ERROR}_PREFIX を事前に定義しておくと [ info ] 的な部分をユーザー定義に置き換え可能。（ "" をユーザー定義すれば出力から消す事も可能。 ）
 
 #pragma once
 
@@ -23,16 +25,59 @@
 
 #else
 
-#if defined( __Clang__ ) || defined( __GNUC__ )
-  #define USAGI_LOG_EASY_LOGGER_GET_FUNCTION __PRETTY_FUNCTION__
-#else
-  #define USAGI_LOG_EASY_LOGGER_GET_FUNCTION __func__
+#ifndef USAGI_LOG_EASY_LOGGER_GET_FILE
+  #define USAGI_LOG_EASY_LOGGER_GET_FILE __FILE__
 #endif
 
-#define LOGI ::usagi::log::easy_logger::log_intermediate::make_info ( __FILE__, __LINE__, USAGI_LOG_EASY_LOGGER_GET_FUNCTION ) << '\t'
-#define LOGD ::usagi::log::easy_logger::log_intermediate::make_debug( __FILE__, __LINE__, USAGI_LOG_EASY_LOGGER_GET_FUNCTION ) << '\t'
-#define LOGW ::usagi::log::easy_logger::log_intermediate::make_warn ( __FILE__, __LINE__, USAGI_LOG_EASY_LOGGER_GET_FUNCTION ) << '\t'
-#define LOGE ::usagi::log::easy_logger::log_intermediate::make_error( __FILE__, __LINE__, USAGI_LOG_EASY_LOGGER_GET_FUNCTION ) << '\t'
+#ifndef USAGI_LOG_EASY_LOGGER_GET_LINE
+  #define USAGI_LOG_EASY_LOGGER_GET_LINE __LINE__
+#endif
+
+#ifndef USAGI_LOG_EASY_LOGGER_GET_FUNCTION
+  #if defined( __Clang__ ) || defined( __GNUC__ )
+    #define USAGI_LOG_EASY_LOGGER_GET_FUNCTION __PRETTY_FUNCTION__
+  #else
+    #define USAGI_LOG_EASY_LOGGER_GET_FUNCTION __func__
+  #endif
+#endif
+
+#ifndef USAGI_LOG_EASY_LOGGER_INFO_PREFIX
+  #define USAGI_LOG_EASY_LOGGER_INFO_PREFIX  " [ info  ]\t"
+#endif
+
+#ifndef USAGI_LOG_EASY_LOGGER_DEBUG_PREFIX
+  #define USAGI_LOG_EASY_LOGGER_DEBUG_PREFIX " [ debug ]\t"
+#endif
+
+#ifndef USAGI_LOG_EASY_LOGGER_WARN_PREFIX
+  #define USAGI_LOG_EASY_LOGGER_WARN_PREFIX  " [ warn  ]\t"
+#endif
+
+#ifndef USAGI_LOG_EASY_LOGGER_ERROR_PREFIX
+  #define USAGI_LOG_EASY_LOGGER_ERROR_PREFIX " [ error ]\t"
+#endif
+
+
+#define LOGI ::usagi::log::easy_logger::log_intermediate::make_info \
+  ( USAGI_LOG_EASY_LOGGER_GET_FILE \
+  , USAGI_LOG_EASY_LOGGER_GET_LINE \
+  , USAGI_LOG_EASY_LOGGER_GET_FUNCTION \
+  ) << USAGI_LOG_EASY_LOGGER_INFO_PREFIX  << '\t'
+#define LOGD ::usagi::log::easy_logger::log_intermediate::make_debug\
+  ( USAGI_LOG_EASY_LOGGER_GET_FILE \
+  , USAGI_LOG_EASY_LOGGER_GET_LINE \
+  , USAGI_LOG_EASY_LOGGER_GET_FUNCTION \
+  ) << USAGI_LOG_EASY_LOGGER_DEBUG_PREFIX << '\t'
+#define LOGW ::usagi::log::easy_logger::log_intermediate::make_warn \
+  ( USAGI_LOG_EASY_LOGGER_GET_FILE \
+  , USAGI_LOG_EASY_LOGGER_GET_LINE \
+  , USAGI_LOG_EASY_LOGGER_GET_FUNCTION \
+  ) << USAGI_LOG_EASY_LOGGER_WARN_PREFIX  << '\t'
+#define LOGE ::usagi::log::easy_logger::log_intermediate::make_error\
+  ( USAGI_LOG_EASY_LOGGER_GET_FILE \
+  , USAGI_LOG_EASY_LOGGER_GET_LINE \
+  , USAGI_LOG_EASY_LOGGER_GET_FUNCTION \
+  ) << USAGI_LOG_EASY_LOGGER_ERROR_PREFIX << '\t'
 
 #endif
 
