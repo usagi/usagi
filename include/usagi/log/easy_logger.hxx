@@ -23,10 +23,16 @@
 
 #else
 
-#define LOGI ::usagi::log::easy_logger::log_intermediate::make_info ( __FILE__, __LINE__, __PRETTY_FUNCTION__ ) << '\t'
-#define LOGD ::usagi::log::easy_logger::log_intermediate::make_debug( __FILE__, __LINE__, __PRETTY_FUNCTION__ ) << '\t'
-#define LOGW ::usagi::log::easy_logger::log_intermediate::make_warn ( __FILE__, __LINE__, __PRETTY_FUNCTION__ ) << '\t'
-#define LOGE ::usagi::log::easy_logger::log_intermediate::make_error( __FILE__, __LINE__, __PRETTY_FUNCTION__ ) << '\t'
+#if defined( __Clang__ ) || defined( __GNUC__ )
+  #define USAGI_LOG_EASY_LOGGER_GET_FUNCTION __PRETTY_FUNCTION__
+#else
+  #define USAGI_LOG_EASY_LOGGER_GET_FUNCTION __func__
+#endif
+
+#define LOGI ::usagi::log::easy_logger::log_intermediate::make_info ( __FILE__, __LINE__, USAGI_LOG_EASY_LOGGER_GET_FUNCTION ) << '\t'
+#define LOGD ::usagi::log::easy_logger::log_intermediate::make_debug( __FILE__, __LINE__, USAGI_LOG_EASY_LOGGER_GET_FUNCTION ) << '\t'
+#define LOGW ::usagi::log::easy_logger::log_intermediate::make_warn ( __FILE__, __LINE__, USAGI_LOG_EASY_LOGGER_GET_FUNCTION ) << '\t'
+#define LOGE ::usagi::log::easy_logger::log_intermediate::make_error( __FILE__, __LINE__, USAGI_LOG_EASY_LOGGER_GET_FUNCTION ) << '\t'
 
 #endif
 
@@ -45,6 +51,10 @@
       #define USAGI_LOG_EASY_LOGGER_CLOCK_TYPE usagi::chrono::default_clock
     #endif
   #endif
+#endif
+
+#ifndef USAGI_LOG_EASY_LOGGER_OUT
+  #define USAGI_LOG_EASY_LOGGER_OUT ::std::cout
 #endif
 
 #include <string>
@@ -139,8 +149,9 @@ namespace usagi::log::easy_logger
     {
       try
       {
-        cout
-          << prefix
+        // multi thread でも分断されないように一旦バッファーにまとめる
+        stringstream s;
+        s << prefix
           << "[ " << setw( log_time_width )
           << setprecision( 9 )
           << fixed
@@ -157,6 +168,7 @@ namespace usagi::log::easy_logger
           << suffix
           << endl
           ;
+        USAGI_LOG_EASY_LOGGER_OUT << s.str();
       }
       catch ( const exception& e )
       { cerr << "\n\n<<<<<\nexception on " << __PRETTY_FUNCTION__ << "\nwhat=" << e.what() << "\n>>>>>\n\n"; }
