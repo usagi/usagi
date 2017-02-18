@@ -7,9 +7,7 @@
   #include <usagi/json/picojson/type.hxx>
 #endif
 
-#include <string>
 #include <stdexcept>
-#include <vector>
 
 #include <boost/optional.hpp>
 

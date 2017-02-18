@@ -8,13 +8,15 @@
 #endif
 
 #include <string>
-#include <stdexcept>
-#include <vector>
+#include <cstdlib>
 
 #include <boost/optional.hpp>
 
 namespace usagi::http
 {
+  using namespace std;
+  using boost::optional;
+  
   /// @brief 単純な HEAD や GET あるいは BODY にデータを詰めた REQUEST を行い RESPONSE を得る
   /// @param url URL
   /// @param method "HEAD" や "GET" など。 method_head などの定義済みの文字列を用いる事を推奨。
