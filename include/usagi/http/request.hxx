@@ -21,7 +21,7 @@ namespace usagi::http
   /// @param data REQUEST の BODY に詰めたいデータがある場合の先頭アドレス値
   /// @param data_size data の長さ [bytes]
   /// @extra_header REQUEST のヘッダーに追加したい文字列
-  USAGI_HTTP_USAGI_HTTP_STATIC inline auto request
+  USAGI_HTTP_STATIC inline auto request
   ( const string&  url
   , const string&  method
   , const void*    data
