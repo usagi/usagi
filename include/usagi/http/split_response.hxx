@@ -3,7 +3,7 @@
 #include "macro.hxx"
 #include "structured_response_type.hxx"
 
-#include <boost/optional.hxx>
+#include <boost/optional.hpp>
 
 #include <string>
 
