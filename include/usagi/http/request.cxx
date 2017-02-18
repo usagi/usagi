@@ -2,6 +2,7 @@
 
 #include "macro.hxx"
 #include "io_service.hxx"
+#include "constant.hxx"
 
 #ifndef DISABLE_USAGI_HTTP_JSON
   #include <usagi/json/picojson/type.hxx>
