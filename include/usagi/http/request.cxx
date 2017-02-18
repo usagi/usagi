@@ -163,8 +163,8 @@ namespace usagi::http
   auto request_optional
   ( const string&  url
   , const string&  method
-  , const void*    data         = nullptr
-  , const size_t   data_size    = 0
+  , const void*    data
+  , const size_t   data_size
   , const string&  extra_header
   ) -> optional< string >
   { try { return request( url, method, data, data_size, extra_header ); } catch ( ... ) { return { }; } }
