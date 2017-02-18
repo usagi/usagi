@@ -155,7 +155,7 @@ namespace usagi::http
   ( const string&  url
   , const string&  method
   , const ::usagi::json::picojson::value_type& data
-  , const string&  extra_header = ""
+  , const string&  extra_header
   ) -> string
   { return request( url, method, data.serialize(), "Content-Type: application/json\r\n" + extra_header ); }
 #endif
@@ -165,7 +165,7 @@ namespace usagi::http
   , const string&  method
   , const void*    data         = nullptr
   , const size_t   data_size    = 0
-  , const string&  extra_header = ""
+  , const string&  extra_header
   ) -> optional< string >
   { try { return request( url, method, data, data_size, extra_header ); } catch ( ... ) { return { }; } }
   
@@ -173,7 +173,7 @@ namespace usagi::http
   ( const string&  url
   , const string&  method
   , const string&  data
-  , const string&  extra_header = ""
+  , const string&  extra_header
   ) -> optional< string >
   { try { return request( url, method, data, extra_header ); } catch ( ... ) { return { }; } }
   
@@ -182,7 +182,7 @@ namespace usagi::http
   ( const string&  url
   , const string&  method
   , const ::usagi::json::picojson::value_type& data
-  , const string&  extra_header = ""
+  , const string&  extra_header
   ) -> optional< string >
   { try { return request( url, method, data, extra_header ); } catch ( ... ) { return { }; } }
 #endif
