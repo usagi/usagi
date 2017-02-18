@@ -9,6 +9,8 @@
 
 #include <stdexcept>
 
+#include <boost/xpressive/xpressive.hpp>
+#include <boost/algorithm/string.hpp>
 #include <boost/optional.hpp>
 
 
