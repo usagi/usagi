@@ -62,14 +62,14 @@ namespace usagi::json::picojson
           s >> out;
           
           if ( s.fail() )
-            throw std::runtime_error( "cannot convert to a number type from std::string type." );
+            throw std::runtime_error( "cannot convert to a number type from std::string type. type_conversion = true value = " + v.serialize() );
           
           return out;
         }
       }
     }
     
-    throw std::runtime_error( "cannot convert to a number type from value_type type." );
+    throw std::runtime_error( "cannot convert to a number type from value_type type. type_conversion = false value = " + v.serialize() );
   }
   
   template < >
@@ -154,6 +154,14 @@ namespace usagi::json::picojson
     return get_value_as< T >( v, type_conversion );
   }
   
+  template < typename T >
+  static inline auto get_value_as
+  ( const value_type& source
+  , const char* dot_separated_path
+  , const bool type_conversion = true
+  ) -> T
+  { return get_value_as< T >( source, std::string( dot_separated_path ), type_conversion ); }
+  
   /// @brief get_value_as が out_of_range や runtime_error など例外で失敗する場合に optional で例外の送出をカバーする版
   template < typename T >
   static inline auto get_value_as_optional
@@ -180,4 +188,11 @@ namespace usagi::json::picojson
     { return { }; }
   }
   
+  template < typename T >
+  static inline auto get_value_as_optional
+  ( const value_type& source
+  , const char* dot_separated_path
+  , const bool type_conversion = true
+  ) noexcept -> boost::optional< T >
+  { return get_value_as_optional< T >( source, std::string( dot_separated_path ), type_conversion ); }
 }
