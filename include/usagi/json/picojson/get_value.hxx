@@ -143,6 +143,16 @@ namespace usagi::json::picojson
     return v.get< array_type >();
   }
   
+  template < >
+  inline auto get_value_as< boolean_type >
+  ( const value_type& v
+  , const bool
+  ) -> boolean_type
+  {
+    // note: picojson による cast 失敗で適当な std::runtime_error が発行される
+    return v.get< boolean_type >();
+  }
+  
   template < typename T >
   static inline auto get_value_as
   ( const value_type& source
