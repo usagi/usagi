@@ -102,6 +102,10 @@
   #define USAGI_LOG_EASY_LOGGER_OUT ::std::cout
 #endif
 
+#ifndef USAGI_LOG_EASY_LOGGER_FLUSH
+  #define USAGI_LOG_EASY_LOGGER_FLUSH ::std::flush
+#endif
+
 #include <string>
 #include <iostream>
 #include <iomanip>
@@ -213,7 +217,7 @@ namespace usagi::log::easy_logger
           << suffix
           << endl
           ;
-        USAGI_LOG_EASY_LOGGER_OUT << s.str();
+        USAGI_LOG_EASY_LOGGER_OUT << s.str() << USAGI_LOG_EASY_LOGGER_FLUSH;
       }
       catch ( const exception& e )
       { cerr << "\n\n<<<<<\nexception on " << __PRETTY_FUNCTION__ << "\nwhat=" << e.what() << "\n>>>>>\n\n"; }
