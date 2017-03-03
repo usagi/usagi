@@ -13,9 +13,14 @@
 /// 
 /// DISABLE_USAGI_HTTP_JSON マクロが定義されている場合は usagi::json を用いる syntax sugar は定義されない。
 
-#include "http/get.hxx"
-#include "http/post.hxx"
-#include "http/put.hxx"
-#include "http/delete.hxx"
-#include "http/head.hxx"
-//#include "http/server.hxx"
+#ifndef DISABLE_USAGI_HTTP_CLIENT
+  #include "http/get.hxx"
+  #include "http/post.hxx"
+  #include "http/put.hxx"
+  #include "http/delete.hxx"
+  #include "http/head.hxx"
+#endif
+
+#ifndef DISABLE_USAGI_HTTP_SERVER
+  #include "http/server_type.hxx"
+#endif
