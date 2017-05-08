@@ -34,9 +34,9 @@ namespace usagi::keyboard::glfw3
   // 40 .. 49
   , "", "", "", "", "comma", "minus", "period", "slash", "0", "1"
   // 50 .. 59
-  , "2", "3", "4", "5", "6", "7", "8", "9", "semicolon"
+  , "2", "3", "4", "5", "6", "7", "8", "9", "", "semicolon"
   // 60 .. 69
-  , "", "equal", "a", "b", "c", "d", "e"
+  , "", "equal", "", "", "", "a", "b", "c", "d", "e"
   // 70 .. 79
   , "f", "g", "h", "i", "j", "k", "l", "m", "n", "o"
   // 80 .. 89
@@ -80,7 +80,7 @@ namespace usagi::keyboard::glfw3
   // 270 .. 279
   , "", "", "", "", "", "", "", "", "", ""
   // 280 .. 289
-  , "caps-lock", "scroll-lock", "num-lock", "print-screen", "pause"
+  , "caps-lock", "scroll-lock", "num-lock", "print-screen", "pause", "", "", "", "", ""
   // 290 .. 299
   , "f1", "f2", "f3", "f4", "f5", "f6", "f7", "f8", "f9", "f10"
   // 300 .. 309
